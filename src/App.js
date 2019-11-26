@@ -1,22 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useEffect } from "react";
+
+import logo from "./logo.svg";
+import "./App.css";
+
+import sendReward from "./services/sendReward";
 
 function App() {
+  useEffect(() => {
+    // init tasks
+  }, [])
+
+  const onSpinWheel = e => {
+    // Account address of player.
+    const address = "";
+    sendReward(address);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+        <p>Spin the Wheel and Win Prizes</p>
+        <label for="addrInput" class="form-label">Address</label>
+        <input id="addrInput" type="text" placeholder="0x..." />
         <a
+          href="#"
           className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+          onClick={onSpinWheel}
         >
-          Learn React
+          Spin
         </a>
       </header>
     </div>

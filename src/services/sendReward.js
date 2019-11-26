@@ -1,17 +1,17 @@
-# spin2win Web Interface
+import { Abi } from "@plugnet/api-contract";
+import { WsProvider } from "@plugnet/rpc-provider";
+import { Api } from "@cennznet/api";
+import { u8aToHex } from "@cennznet/util";
+import { Wallet, SimpleKeyring } from "@cennznet/wallet";
+import { waitReady } from "@plugnet/wasm-crypto";
 
-## Running the app
+import BN from "bn.js";
 
-```sh
-$ yarn
-$ yarn start
-```
+import ABIJson from "./Spin2Win.json";
 
-## Calling Cennznet Contracts from a DApp
+// If API has already been created, just use it.
+let sdkApi = null;
 
-### Setting up the network configuration
-
-```javascript
 const apiKey = "5b55b29e-bcb0-4ec7-9ae3-7c262ab0029c";
 
 // network
@@ -20,17 +20,6 @@ const rimu = {
   contractAddress: "5EmcW7ndycEYkTjLoTpZKbChRKrqL7oQ1LNcuLXGUhZGg2zE",
   type: "Rimu"
 };
-```
-
-### Create the signer's wallet and configure the API with the signer's wallet
-
-```javascript
-import { WsProvider } from "@plugnet/rpc-provider";
-import { Api } from "@cennznet/api";
-import { Wallet, SimpleKeyring } from "@cennznet/wallet";
-import { waitReady } from "@plugnet/wasm-crypto";
-
-let sdkApi = null;
 
 // signer
 const master = {
@@ -53,7 +42,7 @@ const createApi = async () => {
 // hold the key pair for the master.
 const createWallet = async () => {
   const simpleKeyring = new SimpleKeyring();
-  simpleKeyring.addFromSeed(hexToU8a(master.seed));
+  simpleKeyring.addFromSee(master.seed));
 
   const wallet = new Wallet();
   await wallet.createNewVault("666");
@@ -69,11 +58,8 @@ const configApi = async () => {
   api.setSigner(wallet);
   return api;
 };
-```
 
-### Create the payload for the transaction, sign the tx and send it to the contract
-
-```javascript
+// Generate the payload from the contract ABI.
 const spin2win = accountId => {
   const contractAbi = new Abi(ABIJson);
   return contractAbi.messages.spin(accountId);
@@ -106,4 +92,5 @@ const sendReward = async address => {
 
   return txHash;
 };
-```
+
+export default sendReward;
