@@ -42,7 +42,7 @@ const createApi = async () => {
 // hold the key pair for the master.
 const createWallet = async () => {
   const simpleKeyring = new SimpleKeyring();
-  simpleKeyring.addFromSee(master.seed));
+  simpleKeyring.addFromSeed(master.seed);
 
   const wallet = new Wallet();
   await wallet.createNewVault("666");
